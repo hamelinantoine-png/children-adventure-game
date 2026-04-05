@@ -12,8 +12,7 @@ export default class MenuScene extends Phaser.Scene {
   constructor() {
     super('MenuScene');
     this._clouds = [];
-    this._simba  = null;
-    this._panpan = null;
+    this._player = null;
     this._hint   = null;
     this._groundTile = null;
   }
@@ -101,35 +100,10 @@ export default class MenuScene extends Phaser.Scene {
   // ── Personnages ────────────────────────────────────────────────────────────
 
   _buildCharacters() {
-    const groundTop = GROUND_Y;
-
-    // Simba : base du corps alignée sur le sol
-    this._simba = this.add.image(200, groundTop - 30, 'simba')
+    // Sprite animé : Panpan chevauche le Lion au galop
+    this._player = this.add.sprite(200, GROUND_Y, 'player_run_0')
       .setOrigin(0.5, 1);
-
-    // Panpan : assis sur le dos de Simba
-    this._panpan = this.add.image(180, groundTop - 55, 'panpan')
-      .setOrigin(0.5, 1);
-
-    // Animation course (bob vertical)
-    this.tweens.add({
-      targets: [this._simba, this._panpan],
-      y: `-=5`,
-      duration: 300,
-      ease: 'Sine.easeInOut',
-      yoyo: true,
-      repeat: -1
-    });
-
-    // Légère oscillation gauche/droite (galop)
-    this.tweens.add({
-      targets: this._simba,
-      scaleX: 1.04,
-      duration: 280,
-      ease: 'Sine.easeInOut',
-      yoyo: true,
-      repeat: -1
-    });
+    this._player.anims.play('player_run');
   }
 
   // ── Texte d'instruction ────────────────────────────────────────────────────
